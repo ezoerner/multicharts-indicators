@@ -73,10 +73,14 @@ namespace PowerLanguage.Indicator{
 			// Possibilities: Break Up, ContinueDownAndBreakUp, ContinueUp, Break Down, ContinueUpAndBreakDown, Continue Down,
 			// or Not Yet In a Swing
 			
-			Boolean breakUp = !inUpLeg && (barType == BarType.UpBar || (inDownLeg && barType == BarType.OutsideBar && Bars.HighValue > lastSwingHigh));
-			Boolean breakDown = !inDownLeg && (barType == BarType.DownBar || (inUpLeg && barType == BarType.OutsideBar && Bars.LowValue >= lastSwingLow));
-			Boolean continueUp = inUpLeg && (barType == BarType.UpBar || barType == BarType.InsideBar || (barType == BarType.OutsideBar && Bars.LowValue  >= lastSwingLow));
-			Boolean continueDown = inDownLeg && (barType == BarType.DownBar || barType == BarType.InsideBar || (barType == BarType.OutsideBar && Bars.HighValue <= lastSwingHigh));
+			Boolean breakUp = !inUpLeg && (barType == BarType.UpBar ||
+				(inDownLeg && barType == BarType.OutsideBar && Bars.HighValue > lastSwingHigh));
+			Boolean continueUp = inUpLeg && (barType == BarType.UpBar || barType == BarType.InsideBar ||
+				(barType == BarType.OutsideBar && Bars.LowValue  >= lastSwingLow));
+			Boolean breakDown = !inDownLeg && (barType == BarType.DownBar ||
+				(inUpLeg && barType == BarType.OutsideBar && Bars.LowValue < lastSwingLow));
+			Boolean continueDown = inDownLeg &&(barType == BarType.DownBar || barType == BarType.InsideBar ||
+				(barType == BarType.OutsideBar && Bars.HighValue <= lastSwingHigh));
 			Boolean continueUpAndBreakDown = breakDown && Bars.HighValue > thisSwingHigh;
 			Boolean continueDownAndBreakUp = breakUp && Bars.LowValue < thisSwingLow;
 			
