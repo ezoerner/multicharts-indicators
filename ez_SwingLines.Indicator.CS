@@ -50,6 +50,10 @@ namespace PowerLanguage.Indicator{
 		}
 		
 		protected override void CalcBar(){
+			if (Bars.Status != EBarState.Close) {
+				return;
+			}
+			
 			// indicator logic
 			BarType barType;
 			if (Bars.HighValue > Bars.High[1] && Bars.LowValue > Bars.Low[1]) {
@@ -83,25 +87,33 @@ namespace PowerLanguage.Indicator{
 				(barType == BarType.OutsideBar && Bars.HighValue <= lastSwingHigh));
 			Boolean continueUpAndBreakDown = breakDown && Bars.HighValue > thisSwingHigh;
 			Boolean continueDownAndBreakUp = breakUp && Bars.LowValue < thisSwingLow;
-			
+						
 			if (breakUp) {
+				#if DEBUG
+				Output.WriteLine("CurrentBar = {0}; breakUp", Bars.CurrentBar);
+				#endif
+				
 				inUpLeg = true;
 				inDownLeg = false;
 				
 				if (continueDownAndBreakUp) {
+					#if DEBUG
+					Output.WriteLine("CurrentBar = {0}; continueDownAndBreakUp", Bars.CurrentBar);
+					#endif
+					
 					thisY = Bars.LowValue;
 					thisSwingLow = Bars.LowValue;
 					thisPivotX = Bars.CurrentBar;
+
 					lastLine.Delete();
-					if (Bars.Status == EBarState.Close) {
-						ChartPoint start0 = new ChartPoint(lastPivotX, lastPivotY);
-               			ChartPoint end0 = new ChartPoint(Bars.CurrentBar, thisY);
-						DrwTrendLine.Create(start0, end0);
-						ChartPoint start = new ChartPoint(Bars.CurrentBar, Bars.LowValue);
-               			ChartPoint end = new ChartPoint(Bars.CurrentBar, Bars.HighValue);
-						lastLine = DrwTrendLine.Create(start, end);						
-						plotLine = false;
-					}
+					ChartPoint start0 = new ChartPoint(lastPivotX, lastPivotY);
+               		ChartPoint end0 = new ChartPoint(Bars.CurrentBar, thisY);
+					DrwTrendLine.Create(start0, end0);
+					ChartPoint start = new ChartPoint(Bars.CurrentBar, Bars.LowValue);
+               		ChartPoint end = new ChartPoint(Bars.CurrentBar, Bars.HighValue);
+					lastLine = DrwTrendLine.Create(start, end);						
+					plotLine = false;
+
 				}
 				else {
 					thisY = Bars.HighValue;
@@ -118,6 +130,10 @@ namespace PowerLanguage.Indicator{
 				thisPivotX = Bars.CurrentBar;
 			}
 			else if (continueUp) {
+				#if DEBUG
+				Output.WriteLine("CurrentBar = {0}; continueUp", Bars.CurrentBar);
+				#endif
+				
 				if (Bars.HighValue >= thisSwingHigh) {  // new high in swing
 					thisY = Bars.HighValue;
 					thisSwingHigh = Bars.HighValue;
@@ -131,23 +147,31 @@ namespace PowerLanguage.Indicator{
 				}
 			}
 			else if (breakDown) {
+				#if DEBUG
+				Output.WriteLine("CurrentBar = {0}; breakDown", Bars.CurrentBar);
+				#endif
+
 				inDownLeg = true;
 				inUpLeg = false;
 				
 				if (continueUpAndBreakDown) {
+					#if DEBUG
+					Output.WriteLine("CurrentBar = {0}; continueUpAndBreakDown", Bars.CurrentBar);
+					#endif
+
 					thisY = Bars.HighValue;
 					thisSwingHigh = Bars.HighValue;
 					thisPivotX = Bars.CurrentBar;
-					if (Bars.Status == EBarState.Close) {
-						lastLine.Delete();
-						ChartPoint start0 = new ChartPoint(lastPivotX, lastPivotY);
-               			ChartPoint end0 = new ChartPoint(Bars.CurrentBar, thisY);
-						DrwTrendLine.Create(start0, end0);
-						ChartPoint start = new ChartPoint(Bars.CurrentBar, Bars.HighValue);
-               			ChartPoint end = new ChartPoint(Bars.CurrentBar, Bars.LowValue);
-						lastLine = DrwTrendLine.Create(start, end);
-						plotLine = false;
-					}
+
+					lastLine.Delete();
+					ChartPoint start0 = new ChartPoint(lastPivotX, lastPivotY);
+           			ChartPoint end0 = new ChartPoint(Bars.CurrentBar, thisY);
+					DrwTrendLine.Create(start0, end0);
+					ChartPoint start = new ChartPoint(Bars.CurrentBar, Bars.HighValue);
+           			ChartPoint end = new ChartPoint(Bars.CurrentBar, Bars.LowValue);
+					lastLine = DrwTrendLine.Create(start, end);
+					plotLine = false;
+
 				}
 				else {
 					thisY = Bars.LowValue;
@@ -164,23 +188,29 @@ namespace PowerLanguage.Indicator{
 				thisPivotX = Bars.CurrentBar;
 			}
 			else if (continueDown) {
+				#if DEBUG
+				Output.WriteLine("CurrentBar = {0}; continueDown", Bars.CurrentBar);
+				#endif
+				
 				if (Bars.LowValue <= thisSwingLow) {
 					thisY = Bars.LowValue;
 					thisSwingLow = Bars.LowValue;
 					thisPivotX = Bars.CurrentBar;
-					if (Bars.Status == EBarState.Close) {
-						lastLine.Delete();
-					}
+					lastLine.Delete();
 				}
 				else {
 					plotLine = false;
 				}
 			}
 			else {
+				#if DEBUG
+				Output.WriteLine("CurrentBar = {0}; (no effect)", Bars.CurrentBar);
+				#endif
+				
 				plotLine = false;
 			}
 				
-			if (plotLine && Bars.Status == EBarState.Close) {
+			if (plotLine) {
 				ChartPoint start = new ChartPoint(lastPivotX, lastPivotY);
        			ChartPoint end = new ChartPoint(Bars.CurrentBar, thisY);
 				lastLine = DrwTrendLine.Create(start, end);
