@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4BD71D9B-76F8-4990-BF1B-4372708E3EFF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>PLStudiesVB2010</RootNamespace>
+    <AssemblyName>PLStudiesVB2010</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing.dll" />
+    <Reference Include="System.Windows.Forms.dll" />
+    <Reference Include="System.dll" />
+    <Reference Include="System.Data.dll" />
+    <Reference Include="System.Xml.dll" />
+    <Reference Include="System.Core.dll" />
+    <Reference Include="C:\Program Files\TS Support\MultiCharts .NET64 Special Edition\PLTypes.dll" />
+    <Reference Include="C:\Program Files\TS Support\MultiCharts .NET64 Special Edition\PLStudiesProxy.dll" />
+    <Reference Include="C:\Program Files\TS Support\MultiCharts .NET64 Special Edition\PLBuiltInFunctions.dll" />
+    <Reference Include="C:\Program Files\TS Support\MultiCharts .NET64 Special Edition\PLTradeManager.dll" />
+    <Reference Include="C:\Program Files\TS Support\MultiCharts .NET64 Special Edition\ATCenterProxy.interop.dll" />
+    <Reference Include="C:\Program Files\TS Support\MultiCharts .NET64 Special Edition\PLDataLoader.dll" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+</Project>
