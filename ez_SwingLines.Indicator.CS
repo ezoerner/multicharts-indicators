@@ -92,7 +92,7 @@ namespace PowerLanguage.Indicator{
 					thisY = Bars.LowValue;
 					thisSwingLow = Bars.LowValue;
 					thisPivotX = Bars.CurrentBar;
-					// delete last line
+					lastLine.Delete();
 					if (Bars.Status == EBarState.Close) {
 						ChartPoint start0 = new ChartPoint(lastPivotX, lastPivotY);
                			ChartPoint end0 = new ChartPoint(Bars.CurrentBar, thisY);
@@ -164,11 +164,16 @@ namespace PowerLanguage.Indicator{
 				thisPivotX = Bars.CurrentBar;
 			}
 			else if (continueDown) {
-				thisY = Bars.LowValue;
-				thisSwingLow = Bars.LowValue;
-				thisPivotX = Bars.CurrentBar;
-				if (Bars.Status == EBarState.Close) {
-					lastLine.Delete();
+				if (Bars.LowValue <= thisSwingLow) {
+					thisY = Bars.LowValue;
+					thisSwingLow = Bars.LowValue;
+					thisPivotX = Bars.CurrentBar;
+					if (Bars.Status == EBarState.Close) {
+						lastLine.Delete();
+					}
+				}
+				else {
+					plotLine = false;
 				}
 			}
 			else {
