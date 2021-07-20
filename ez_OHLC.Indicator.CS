@@ -67,8 +67,16 @@ namespace PowerLanguage.Indicator
 		private ITextObject label7;
 		private ITextObject label8;
 		
-        public ez_OHLC(object ctx) :
-            base(ctx) {}
+        public ez_OHLC(object ctx) : base(ctx) {
+			todayOpenColor = Color.Magenta;
+			yestHighColor = Color.Teal;
+			yestLowColor = Color.Yellow;
+			yestCloseColor = Color.Cyan;
+			ovnHighColor = Color.LightBlue;
+			ovnLowColor = Color.Pink;
+			todayHighColor = Color.LightGreen;
+			todayLowColor = Color.Red;
+		}
 
         protected override void Create(){
 			sessionStart = new TimeSpan(6, 30, 0);
@@ -91,17 +99,7 @@ namespace PowerLanguage.Indicator
             m_yestlow = new VariableObject<Double>(this);
             m_todayslow = new VariableObject<Double>(this);
             m_yestclose = new VariableObject<Double>(this);
-			
-			
-			todayOpenColor = Color.Magenta;
-			yestHighColor = Color.Teal;
-			yestLowColor = Color.Yellow;
-			yestCloseColor = Color.Cyan;
-			ovnHighColor = Color.LightBlue;
-			ovnLowColor = Color.Pink;
-			todayHighColor = Color.LightGreen;
-			todayLowColor = Color.Red;
-			
+						
             Plot1 =
                 AddPlot(new PlotAttributes("Open", EPlotShapes.LeftTick,
                                            todayOpenColor, Color.Empty, 2,
