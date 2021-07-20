@@ -105,36 +105,36 @@ namespace PowerLanguage.Indicator
             Plot1 =
                 AddPlot(new PlotAttributes("Open", EPlotShapes.LeftTick,
                                            todayOpenColor, Color.Empty, 2,
-                                           0,
+                                           EPlotStyle.Dash,
                                            false));
             Plot2 =
                 AddPlot(new PlotAttributes("YestHigh", EPlotShapes.LeftTick,
-                                           yestHighColor, Color.Empty, 1, 0,
+                                           yestHighColor, Color.Empty, 1, EPlotStyle.Dash,
                                            false));
             Plot3 =
                 AddPlot(new PlotAttributes("YestLow", EPlotShapes.LeftTick,
                                            yestLowColor, Color.Empty, 1,
-                                           0,
+                                           EPlotStyle.Dash,
                                            false));
             Plot4 =
                 AddPlot(new PlotAttributes("YestClose", EPlotShapes.LeftTick,
-                                           yestCloseColor, Color.Empty, 1, 0,
+                                           yestCloseColor, Color.Empty, 1, EPlotStyle.Dash,
                                            false));
 			Plot5 =
 				AddPlot(new PlotAttributes("OvernightHigh", EPlotShapes.LeftTick,
-											ovnHighColor, Color.Empty, 2 ,0,
+											ovnHighColor, Color.Empty, 2 ,EPlotStyle.Dash,
 										   false));
 			Plot6 =
 				AddPlot(new PlotAttributes("OvernightLow", EPlotShapes.LeftTick,
-											ovnLowColor, Color.Empty, 2 ,0,
+											ovnLowColor, Color.Empty, 2 ,EPlotStyle.Dash,
 										   false));
 			Plot7 =
 				AddPlot(new PlotAttributes("TodayLow", EPlotShapes.LeftTick,
-											todayLowColor, Color.Empty, 2 ,0,
+											todayLowColor, Color.Empty, 2 ,EPlotStyle.Dash,
 							   				false));
 			Plot8 =
 				AddPlot(new PlotAttributes("TodayHigh", EPlotShapes.LeftTick,
-											todayHighColor, Color.Empty, 2 ,0,
+											todayHighColor, Color.Empty, 2 ,EPlotStyle.Dash,
 							   				false));
 
 			
