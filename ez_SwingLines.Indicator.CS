@@ -4,6 +4,8 @@ using System.Linq;
 using PowerLanguage.Function;
 
 namespace PowerLanguage.Indicator{
+	
+	[SameAsSymbol(true)]
 	public class ez_SwingLines : IndicatorObject {
 		
 		enum BarType {

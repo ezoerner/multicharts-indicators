@@ -16,41 +16,57 @@ namespace PowerLanguage.Indicator
 		[Input]
 		public int windDownTimeMinutes { get; set; }
 		
+		[Input]
+		public Color todayOpenColor { get; set; }
+		[Input]
+		public Color yestHighColor { get; set; }
+		[Input]
+		public Color yestLowColor { get; set; }
+		[Input]
+		public Color yestCloseColor { get; set; }
+		[Input]
+		public Color ovnHighColor { get; set; }
+		[Input]
+		public Color ovnLowColor { get; set; }
+		[Input]
+		public Color todayHighColor { get; set; }
+		[Input]
+		public Color todayLowColor { get; set; }
+		
+		
 		private VariableObject<DateTime> m_openTimestamp;
 		private VariableObject<DateTime> m_closeTimestamp;
-		
+	    private VariableObject<Int32> m_counter;
+
 		private VariableObject<Double> m_overnightHigh;
 		private VariableObject<Double> m_overnightLow;
-		
-        private VariableObject<Int32> m_counter;
 
         private VariableObject<Double> m_yestopen;
-
         private VariableObject<Double> m_todaysopen;
-
         private VariableObject<Double> m_yesthigh;
-
         private VariableObject<Double> m_todayshigh;
-
         private VariableObject<Double> m_yestlow;
-
         private VariableObject<Double> m_todayslow;
-
         private VariableObject<Double> m_yestclose;
 
         private IPlotObject Plot1;
-
         private IPlotObject Plot2;
-
         private IPlotObject Plot3;
-
         private IPlotObject Plot4;
-		
 		private IPlotObject Plot5;
-
 		private IPlotObject Plot6;
-
-
+		private IPlotObject Plot7;
+		private IPlotObject Plot8;
+		
+		private ITextObject label1;
+		private ITextObject label2;
+		private ITextObject label3;
+		private ITextObject label4;
+		private ITextObject label5;
+		private ITextObject label6;
+		private ITextObject label7;
+		private ITextObject label8;
+		
         public ez_OHLC(object ctx) :
             base(ctx) {}
 
@@ -75,38 +91,60 @@ namespace PowerLanguage.Indicator
             m_yestlow = new VariableObject<Double>(this);
             m_todayslow = new VariableObject<Double>(this);
             m_yestclose = new VariableObject<Double>(this);
+			
+			
+			todayOpenColor = Color.Magenta;
+			yestHighColor = Color.Teal;
+			yestLowColor = Color.Yellow;
+			yestCloseColor = Color.Cyan;
+			ovnHighColor = Color.LightBlue;
+			ovnLowColor = Color.Pink;
+			todayHighColor = Color.LightGreen;
+			todayLowColor = Color.Red;
+			
             Plot1 =
                 AddPlot(new PlotAttributes("Open", EPlotShapes.LeftTick,
-                                           Color.Magenta, Color.Empty, 2,
+                                           todayOpenColor, Color.Empty, 2,
                                            0,
                                            false));
             Plot2 =
                 AddPlot(new PlotAttributes("YestHigh", EPlotShapes.LeftTick,
-                                           Color.Blue, Color.Empty, 1, 0,
+                                           yestHighColor, Color.Empty, 1, 0,
                                            false));
             Plot3 =
                 AddPlot(new PlotAttributes("YestLow", EPlotShapes.LeftTick,
-                                           Color.Yellow, Color.Empty, 1,
+                                           yestLowColor, Color.Empty, 1,
                                            0,
                                            false));
             Plot4 =
                 AddPlot(new PlotAttributes("YestClose", EPlotShapes.LeftTick,
-                                           Color.Cyan, Color.Empty, 1, 0,
+                                           yestCloseColor, Color.Empty, 1, 0,
                                            false));
 			Plot5 =
 				AddPlot(new PlotAttributes("OvernightHigh", EPlotShapes.LeftTick,
-											Color.LightBlue, Color.Empty, 2 ,0,
+											ovnHighColor, Color.Empty, 2 ,0,
 										   false));
 			Plot6 =
 				AddPlot(new PlotAttributes("OvernightLow", EPlotShapes.LeftTick,
-											Color.Pink, Color.Empty, 2 ,0,
+											ovnLowColor, Color.Empty, 2 ,0,
 										   false));
+			Plot7 =
+				AddPlot(new PlotAttributes("TodayLow", EPlotShapes.LeftTick,
+											todayLowColor, Color.Empty, 2 ,0,
+							   				false));
+			Plot8 =
+				AddPlot(new PlotAttributes("TodayHigh", EPlotShapes.LeftTick,
+											todayHighColor, Color.Empty, 2 ,0,
+							   				false));
+
 			
         }
 
 		protected override void StartCalc() {
 			m_closeTimestamp.Value = Bars.TimeValue;
 			m_openTimestamp.Value = Bars.TimeValue;
+            m_todayshigh.Value = Bars.HighValue;
+            m_todayslow.Value = Bars.LowValue;
 		}
 		
         protected override void CalcBar()
@@ -123,8 +161,8 @@ namespace PowerLanguage.Indicator
 						
 				m_yesthigh.Value = m_todayshigh.Value;
                 m_yestlow.Value = m_todayslow.Value;
-                m_todayshigh.Value = Bars.High[0];
-                m_todayslow.Value = Bars.Low[0];
+                m_todayshigh.Value = Bars.HighValue;
+                m_todayslow.Value = Bars.LowValue;
 						
 				DateTime nextClose = Bars.TimeValue.Date.Add(sessionEnd).Subtract(new TimeSpan(0, windDownTimeHours, windDownTimeMinutes, 0, 0));
 				ITrendLineObject line = DrwTrendLine.Create(new ChartPoint(nextClose ,0), new ChartPoint(nextClose, Bars.HighValue));
@@ -152,11 +190,11 @@ namespace PowerLanguage.Indicator
 				line.Color = Color.Cyan;
 			}
 			
-            if (Bars.Time[0].Date != Bars.Time[1].Date)
-            {
+            if (Bars.Time[0].Date != Bars.Time[1].Date) {
                 m_counter.Value = (m_counter.Value + 1);
             }
-            else if (Bars.TimeValue.TimeOfDay <= sessionEnd && Bars.TimeValue.TimeOfDay >= sessionStart) {
+			
+            if (Bars.TimeValue.TimeOfDay <= sessionEnd && Bars.TimeValue.TimeOfDay >= sessionStart) {
                 if (PublicFunctions.DoubleGreater(Bars.High[0], m_todayshigh.Value)){
                     m_todayshigh.Value = Bars.High[0];
                 }
@@ -181,7 +219,43 @@ namespace PowerLanguage.Indicator
                 Plot4.Set(0, m_yestclose.Value);
 				Plot5.Set(0, m_overnightHigh.Value);
 				Plot6.Set(0, m_overnightLow.Value);
+				Plot7.Set(0, m_todayslow.Value);
+				Plot8.Set(0, m_todayshigh.Value);
             }
+			
+			if (Bars.Status == EBarState.Close) {
+				if (label1 != null) label1.Delete();
+				label1 = DrwText.Create(new ChartPoint(Bars.CurrentBar + 1, m_todaysopen.Value), "TodayOpen");
+				label1.Color = todayOpenColor;
+				
+				if (label2 != null) label2.Delete();
+				label2 = DrwText.Create(new ChartPoint(Bars.CurrentBar + 2, m_yesthigh.Value), "YestHigh");
+				label2.Color = yestHighColor;
+				
+				if (label3 != null) label3.Delete();
+				label3 = DrwText.Create(new ChartPoint(Bars.CurrentBar + 3, m_yestlow.Value), "YestLow");
+				label3.Color = yestLowColor;
+				
+				if (label4 != null) label4.Delete();
+				label4 = DrwText.Create(new ChartPoint(Bars.CurrentBar + 4, m_yestclose.Value), "YestClose");
+				label4.Color = yestCloseColor;
+				
+				if (label5 != null) label5.Delete();
+				label5 = DrwText.Create(new ChartPoint(Bars.CurrentBar + 5, m_overnightHigh.Value), "OvnHigh");
+				label5.Color = ovnHighColor;
+				
+				if (label6 != null) label6.Delete();
+				label6 = DrwText.Create(new ChartPoint(Bars.CurrentBar + 6, m_overnightLow.Value), "OvnLow");
+				label6.Color = ovnLowColor;
+				
+				if (label7 != null) label7.Delete();
+				label7 = DrwText.Create(new ChartPoint(Bars.CurrentBar + 7, m_todayslow.Value), "TodayLow");
+				label7.Color = todayLowColor;
+				
+				if (label8 != null) label8.Delete();
+				label8 = DrwText.Create(new ChartPoint(Bars.CurrentBar + 8, m_todayshigh.Value), "TodayHigh");
+				label8.Color = todayHighColor;
+			}
         }
     }
 }
