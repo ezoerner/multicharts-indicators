@@ -9,9 +9,9 @@ using PowerLanguage.Function;
 namespace PowerLanguage.Indicator {
 	
     [SameAsSymbol(true)]
-	public class ez_Congestion : IndicatorObject, IChartCustomDrawer {
+	public class ez_Congestion : IndicatorObject/*, IChartCustomDrawer */ {
 		
-		public struct ChartRect {
+/*		public struct ChartRect {
 			
 			public int leftIndex, rightIndex;
 			public double topPrice, bottomPrice;
@@ -24,12 +24,42 @@ namespace PowerLanguage.Indicator {
 				this.bottomPrice = bottomPrice;
 		    }
 		}
-
+*/
+		public class ChartRect {
+			private readonly ITrendLineObject line1;
+			private readonly ITrendLineObject line2;
+			private readonly ITrendLineObject line3;
+			private readonly ITrendLineObject line4;
+			
+			public ChartRect(int leftIndex, int rightIndex, double topPrice, double bottomPrice, CStudyControl studyControl) {
+				this.line1 = studyControl.DrwTrendLine.Create(new ChartPoint(leftIndex, topPrice), new ChartPoint(rightIndex, topPrice));;
+				this.line2 = studyControl.DrwTrendLine.Create(new ChartPoint(rightIndex, topPrice), new ChartPoint(rightIndex, bottomPrice));
+				this.line3 = studyControl.DrwTrendLine.Create(new ChartPoint(rightIndex, bottomPrice), new ChartPoint(leftIndex, bottomPrice));
+				this.line4 = studyControl.DrwTrendLine.Create(new ChartPoint(leftIndex, bottomPrice), new ChartPoint(leftIndex, topPrice));
+			}
+			
+			public void setColor(Color color) {
+				line1.Color = color;
+				line2.Color = color;
+				line3.Color = color;
+				line4.Color = color;
+			}
+			
+			public void delete() {
+				line1.Delete();
+				line2.Delete();
+				line3.Delete();
+				line4.Delete();
+			}
+		}
+		
+		private VariableSeries<ChartRect> congestRect;
+		
 		private VariableSeries<int> congestCount;
 		private VariableSeries<Double> congestHigh;
 		private VariableSeries<Double> congestLow;
 		
-		private ConcurrentQueue<ChartRect> cq = new ConcurrentQueue<ChartRect>();
+		//private ConcurrentQueue<ChartRect> cq = new ConcurrentQueue<ChartRect>();
 		
 		public ez_Congestion(object _ctx):base(_ctx){}
 
@@ -39,7 +69,9 @@ namespace PowerLanguage.Indicator {
             congestHigh = new VariableSeries<Double>(this);
             congestLow = new VariableSeries<Double>(this);
 			
- 			ChartCustomDraw.Register(this);
+			congestRect = new VariableSeries<ChartRect>(this);
+			
+ 			//ChartCustomDraw.Register(this);
 		}
 		
 		protected override void StartCalc() {
@@ -49,6 +81,8 @@ namespace PowerLanguage.Indicator {
 		}
 		
 		protected override void CalcBar(){
+			congestRect.Value = null;
+			
 			if (Bars.CurrentBar > 0 && Bars.Status == EBarState.Close) {				
 				congestCount.Value = 0;
 				congestHigh.Value = Double.NaN;
@@ -86,11 +120,16 @@ namespace PowerLanguage.Indicator {
 				Output.WriteLine("CongestRect: leftIndex={0}; top={1}; rightIndex={2}; bottom={3}", leftIndex, top, rightIndex, bottom);
 				#endif
 				
-				ChartRect rect = new ChartRect(leftIndex, rightIndex, top, bottom);
-				cq.Enqueue(rect);
+				//cq.Enqueue(rect);				
+				ChartRect rect = new ChartRect(leftIndex, rightIndex, top, bottom, this);
+				rect.setColor(Color.BlanchedAlmond);
+				congestRect.Value = rect;
+				if (congestRect[1] != null) {
+					congestRect[1].delete();
+				}
 			}
 		}
-		
+		/*
 		protected override void Destroy(){
             ChartCustomDraw.Unregister(this);
         }
@@ -125,5 +164,6 @@ namespace PowerLanguage.Indicator {
 				context.graphics.FillRectangle(brush, drawRect);			
 			}
 		}
+		*/
 	}
 }
