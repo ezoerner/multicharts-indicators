@@ -66,6 +66,7 @@ namespace PowerLanguage.Indicator{
 				  ITrendLineObject line = DrwTrendLine.Create(start,end);
 				  line.Color = trendColor;
 				  line.Size = 2;
+				  line.Locked = true;
 				}
 				
 				if (isWideBar) {

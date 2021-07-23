@@ -161,13 +161,14 @@ namespace PowerLanguage.Indicator
                 m_yestlow.Value = m_todayslow.Value;
                 m_todayshigh.Value = Bars.HighValue;
                 m_todayslow.Value = Bars.LowValue;
-						
+/*						
 				DateTime nextClose = Bars.TimeValue.Date.Add(sessionEnd).Subtract(new TimeSpan(0, windDownTimeHours, windDownTimeMinutes, 0, 0));
 				ITrendLineObject line = DrwTrendLine.Create(new ChartPoint(nextClose ,0), new ChartPoint(nextClose, Bars.HighValue));
 				line.ExtLeft = true;
 				line.ExtRight = true;
 				line.Style = ETLStyle.ToolDotted;
 				line.Color = Color.Magenta;
+*/
 						
 			}
 					
@@ -179,13 +180,15 @@ namespace PowerLanguage.Indicator
 				 m_overnightHigh.Value = Bars.HighValue;
 				 m_overnightLow.Value = Bars.LowValue;
 						
-				int daysToAdd = Bars.TimeValue.Date.DayOfWeek == DayOfWeek.Friday ? 3 : 1;
+/*				int daysToAdd = Bars.TimeValue.Date.DayOfWeek == DayOfWeek.Friday ? 3 : 1;
 				DateTime nextOpen = Bars.TimeValue.Date.AddDays(daysToAdd).Add(sessionStart);
 				ITrendLineObject line = DrwTrendLine.Create(new ChartPoint(nextOpen ,0), new ChartPoint(nextOpen, Bars.HighValue));
+
 				line.ExtLeft = true;
 				line.ExtRight = true;
 				line.Style = ETLStyle.ToolDotted;
 				line.Color = Color.Cyan;
+*/
 			}
 			
             if (Bars.Time[0].Date != Bars.Time[1].Date) {
@@ -211,22 +214,26 @@ namespace PowerLanguage.Indicator
 
             if (m_counter.Value >= 2)
             {
-                Plot1.Set(0, m_todaysopen.Value);
+/*                Plot1.Set(0, m_todaysopen.Value);
                 Plot2.Set(0, m_yesthigh.Value);
                 Plot3.Set(0, m_yestlow.Value);
                 Plot4.Set(0, m_yestclose.Value);
+*/
 				Plot5.Set(0, m_overnightHigh.Value);
 				Plot6.Set(0, m_overnightLow.Value);
-				Plot7.Set(0, m_todayslow.Value);
+/*				Plot7.Set(0, m_todayslow.Value);
 				Plot8.Set(0, m_todayshigh.Value);
+*/
             }
 			
 			if (Bars.Status == EBarState.Close) {
+				/*
 				if (label1 != null) label1.Delete();
-				label1 = DrwText.Create(new ChartPoint(Bars.CurrentBar + 1, m_todaysopen.Value), "TodayOpen");
+				label1 = DrwText.Create(new ChartPoint(Bars.CurrentBar + 6, m_todaysopen.Value), "TodayOpen");
 				label1.Color = todayOpenColor;
+				*/
 				
-				if (label2 != null) label2.Delete();
+/*				if (label2 != null) label2.Delete();
 				label2 = DrwText.Create(new ChartPoint(Bars.CurrentBar + 2, m_yesthigh.Value), "YestHigh");
 				label2.Color = yestHighColor;
 				
@@ -237,22 +244,23 @@ namespace PowerLanguage.Indicator
 				if (label4 != null) label4.Delete();
 				label4 = DrwText.Create(new ChartPoint(Bars.CurrentBar + 4, m_yestclose.Value), "YestClose");
 				label4.Color = yestCloseColor;
-				
+*/				
 				if (label5 != null) label5.Delete();
-				label5 = DrwText.Create(new ChartPoint(Bars.CurrentBar + 5, m_overnightHigh.Value), "OvnHigh");
+				label5 = DrwText.Create(new ChartPoint(Bars.CurrentBar + 7, m_overnightHigh.Value), "OvnHigh");
 				label5.Color = ovnHighColor;
 				
 				if (label6 != null) label6.Delete();
-				label6 = DrwText.Create(new ChartPoint(Bars.CurrentBar + 6, m_overnightLow.Value), "OvnLow");
+				label6 = DrwText.Create(new ChartPoint(Bars.CurrentBar + 8, m_overnightLow.Value), "OvnLow");
 				label6.Color = ovnLowColor;
 				
-				if (label7 != null) label7.Delete();
-				label7 = DrwText.Create(new ChartPoint(Bars.CurrentBar + 7, m_todayslow.Value), "TodayLow");
+		/*		if (label7 != null) label7.Delete();
+				label7 = DrwText.Create(new ChartPoint(Bars.CurrentBar + 9, m_todayslow.Value), "TodayLow");
 				label7.Color = todayLowColor;
 				
 				if (label8 != null) label8.Delete();
-				label8 = DrwText.Create(new ChartPoint(Bars.CurrentBar + 8, m_todayshigh.Value), "TodayHigh");
+				label8 = DrwText.Create(new ChartPoint(Bars.CurrentBar + 10, m_todayshigh.Value), "TodayHigh");
 				label8.Color = todayHighColor;
+		*/
 			}
         }
     }

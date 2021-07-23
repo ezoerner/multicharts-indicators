@@ -110,10 +110,13 @@ namespace PowerLanguage.Indicator{
 					lastLine.Delete();
 					ChartPoint start0 = new ChartPoint(lastPivotX, lastPivotY);
                		ChartPoint end0 = new ChartPoint(Bars.CurrentBar, thisY);
-					DrwTrendLine.Create(start0, end0);
+					ITrendLineObject ln = DrwTrendLine.Create(start0, end0);
+					ln.Locked = true;
+					
 					ChartPoint start = new ChartPoint(Bars.CurrentBar, Bars.LowValue);
                		ChartPoint end = new ChartPoint(Bars.CurrentBar, Bars.HighValue);
-					lastLine = DrwTrendLine.Create(start, end);						
+					lastLine = DrwTrendLine.Create(start, end);
+					lastLine.Locked = true;
 					plotLine = false;
 
 				}
@@ -168,10 +171,13 @@ namespace PowerLanguage.Indicator{
 					lastLine.Delete();
 					ChartPoint start0 = new ChartPoint(lastPivotX, lastPivotY);
            			ChartPoint end0 = new ChartPoint(Bars.CurrentBar, thisY);
-					DrwTrendLine.Create(start0, end0);
+					ITrendLineObject ln = DrwTrendLine.Create(start0, end0);
+					ln.Locked = true;
+					
 					ChartPoint start = new ChartPoint(Bars.CurrentBar, Bars.HighValue);
            			ChartPoint end = new ChartPoint(Bars.CurrentBar, Bars.LowValue);
 					lastLine = DrwTrendLine.Create(start, end);
+					lastLine.Locked = true;
 					plotLine = false;
 
 				}
@@ -216,6 +222,7 @@ namespace PowerLanguage.Indicator{
 				ChartPoint start = new ChartPoint(lastPivotX, lastPivotY);
        			ChartPoint end = new ChartPoint(Bars.CurrentBar, thisY);
 				lastLine = DrwTrendLine.Create(start, end);
+				lastLine.Locked = true;
 			}
 		}
 	}
