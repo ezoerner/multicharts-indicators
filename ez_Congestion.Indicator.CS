@@ -28,28 +28,28 @@ namespace PowerLanguage.Indicator {
 		public class ChartRect {
 			private readonly ITrendLineObject line1;
 			private readonly ITrendLineObject line2;
-			private readonly ITrendLineObject line3;
-			private readonly ITrendLineObject line4;
+//			private readonly ITrendLineObject line3;
+//			private readonly ITrendLineObject line4;
 			
 			public ChartRect(int leftIndex, int rightIndex, double topPrice, double bottomPrice, CStudyControl studyControl) {
 				this.line1 = studyControl.DrwTrendLine.Create(new ChartPoint(leftIndex, topPrice), new ChartPoint(rightIndex, topPrice));;
-				this.line2 = studyControl.DrwTrendLine.Create(new ChartPoint(rightIndex, topPrice), new ChartPoint(rightIndex, bottomPrice));
-				this.line3 = studyControl.DrwTrendLine.Create(new ChartPoint(rightIndex, bottomPrice), new ChartPoint(leftIndex, bottomPrice));
-				this.line4 = studyControl.DrwTrendLine.Create(new ChartPoint(leftIndex, bottomPrice), new ChartPoint(leftIndex, topPrice));
+			//	this.line2 = studyControl.DrwTrendLine.Create(new ChartPoint(rightIndex, topPrice), new ChartPoint(rightIndex, bottomPrice));
+				this.line2 = studyControl.DrwTrendLine.Create(new ChartPoint(rightIndex, bottomPrice), new ChartPoint(leftIndex, bottomPrice));
+			//	this.line4 = studyControl.DrwTrendLine.Create(new ChartPoint(leftIndex, bottomPrice), new ChartPoint(leftIndex, topPrice));
 			}
 			
 			public void setColor(Color color) {
 				line1.Color = color;
 				line2.Color = color;
-				line3.Color = color;
-				line4.Color = color;
+		//		line3.Color = color;
+		//		line4.Color = color;
 			}
 			
 			public void delete() {
 				line1.Delete();
 				line2.Delete();
-				line3.Delete();
-				line4.Delete();
+		//		line3.Delete();
+		//		line4.Delete();
 			}
 		}
 		
